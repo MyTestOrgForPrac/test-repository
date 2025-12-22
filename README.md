@@ -1,2 +1,2 @@
-# test-repositort
+# test-repository
 This is my actions testing
