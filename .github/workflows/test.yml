@@ -1,0 +1,17 @@
+name: execercise1
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: print branch name
+        run: |
+          echo "The branch name is ${{ github.ref_name }}"
+          echo "The branch name is ${{ github.shadow_ref_name }}"
