@@ -7,9 +7,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gen.outputs.version }}
     steps:
+      - id: gen
+        run: echo "version=1.2.${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
 
-      - name: print branch name
-        run: |
-          echo "The branch name is ${{ github.ref_name }}"
-          echo "The branch name is ${{ github.shadow_ref_name }}"
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Deploying version ${{ needs.build.outputs.version }}"
+
