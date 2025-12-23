@@ -1,26 +1,29 @@
-name: execercise123
+name: ARC Autoscaling Test
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.gen.outputs.version }}
-    steps:
-      - id: gen
-        run: | 
-          echo '${{ toJson(github) }}'
-          echo "version=1.2.${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
+  scale-test:
+    runs-on: [self-hosted, kind-runner]
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "Deploying version ${{ needs.build.outputs.version }}"
-          
-  
+    strategy:
+      matrix:
+        job_id: [1, 2, 3, 4]
 
+    steps:
+      - name: Identify runner
+        run: |
+          echo "Job ID      : ${{ matrix.job_id }}"
+          echo "Runner name : $RUNNER_NAME"
+          echo "Host        : $(hostname)"
+          echo "Start time  : $(date)"
+
+      - name: Simulate long job
+        run: |
+          echo "Sleeping to allow autoscaling..."
+          sleep 120
+
+      - name: Finish
+        run: |
+          echo "End time: $(date)"
