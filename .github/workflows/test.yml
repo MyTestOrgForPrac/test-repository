@@ -14,7 +14,6 @@ jobs:
     steps:
       - name: Identify runner
         run: |
-          echo "Job ID      : ${{ matrix.job_id }}"
           echo "Runner name : $RUNNER_NAME"
           echo "Host        : $(hostname)"
           echo "Start time  : $(date)"
