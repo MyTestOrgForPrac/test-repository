@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('clone') {
       steps {
-        echo 'jenkins pipeline job'
+        echo env.BRANCH_NAME
       }
     }
   }
